@@ -19,7 +19,7 @@ exports.login = (req,res,next) =>{
         if(err){
             req.flash("error","Oops Something is Wrong!")
         }else{
-            if(!doc){
+            if(doc){
                
             }else{
                 req.flash("error","User is not found!")
