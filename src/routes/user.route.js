@@ -32,6 +32,7 @@ router.post('/user/login', async(req, res) => {
 
 })
 
+// pass middleware auth to check this is route is only for logged in user
 router.get('/user', auth, async(req, res) => {
     // Get user profile
     res.send(req.user)
