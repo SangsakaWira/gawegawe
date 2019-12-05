@@ -18,6 +18,7 @@ const userSchema = mongoose.Schema({
         unique: true,
         lowercase: true,
         validate: value => {
+            // add validation from validator, read more here https://www.npmjs.com/package/validator
             if (!validator.isEmail(value)) throw new Error({error: 'Invalid Email address'})
             if (validator.isEmpty(value)) throw new Error({error: 'Email address is empty'})
         }
