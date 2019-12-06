@@ -1,0 +1,16 @@
+// import
+const express = require('express')
+const userRouter = require('./routes/user.route')
+const port = process.env.PORT
+
+// use db
+require('./db/db')
+
+const app = express()
+
+app.use(express.json())
+app.use(userRouter)
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`)
+})
