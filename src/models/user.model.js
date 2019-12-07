@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
     },
     last_name: {
         type: String,
-        required: false,
+        default: '',
         trim: true,
     },
     photo: {
@@ -50,19 +50,23 @@ const userSchema = mongoose.Schema({
             }
         }
     }],
-    address_line_1: { type: String },
-    address_line_2: { type: String },
-    country_code: { type: String },
-    postal_code: { type: String },
-    phone: { type: String },
+    address_line_1: { type: String, default: '', },
+    address_line_2: { type: String, default: '', },
+    country_code: { type: String, default: '', },
+    postal_code: { type: String, default: '', },
+    phone: { type: String, default: '', },
 })
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (req, res, next) {
+    console.log('saving')
     // Hash the password before saving the user model
     const user = this
+
     if (user.isModified('password')) {
+        console.log('password modified')
         user.password = await bcrypt.hash(user.password, 8)
     }
+    console.log('going to next')
     next()
 })
 

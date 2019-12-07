@@ -4,9 +4,13 @@ const User = (() => {
     const register = async (req, res) => {
         // Create a new user
         try {
+            console.log('some here')
             const user = new userModel(req.body)
+            console.log('presave')
             await user.save()
+            console.log(user)
             const token = await user.generateAuthToken()
+            console.log(token)
             res.status(201).send({ user, token })
         } catch (error) {
             res.status(400).send(error)
@@ -28,7 +32,7 @@ const User = (() => {
         }
     }
 
-    const getUser = async (req, res) => {
+    const getUserProfile = async (req, res) => {
         // Get user profile
         res.send(req.user)
     }
@@ -40,7 +44,7 @@ const User = (() => {
                 return token.token != req.token
             })
             await req.user.save()
-            res.send()
+            res.status(201).send('logout successfully')
         } catch (error) {
             res.status(500).send(error)
         }
@@ -51,7 +55,7 @@ const User = (() => {
         try {
             req.user.tokens.splice(0, req.user.tokens.length)
             await req.user.save()
-            res.send()
+            res.status(201).send('logout all device successfully')
         } catch (error) {
             res.status(500).send(error)
         }
@@ -84,7 +88,7 @@ const User = (() => {
     return {
         register,
         login,
-        getUser,
+        getUserProfile,
         logout,
         logoutAll,
         userEdit

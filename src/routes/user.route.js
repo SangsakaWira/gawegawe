@@ -9,7 +9,7 @@ router.post('/user', User.register)
 router.post('/user/login', User.login)
 
 // pass middleware auth to check this is route is only for logged in user
-router.get('/users', auth, User.getUser)
+router.get('/user/profile', auth, User.getUserProfile)
 
 router.post('/user/logout', auth, User.logout)
 
