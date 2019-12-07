@@ -15,6 +15,6 @@ router.post('/user/logout', auth, User.logout)
 
 router.post('/users/logoutall', auth, User.logoutAll)
 
-router.post('/user/edit', auth, User.editUser)
+// router.post('/user/edit', auth, User.editUser)
 
 module.exports = router
