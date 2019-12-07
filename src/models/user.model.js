@@ -76,7 +76,7 @@ userSchema.methods.generateAuthToken = async function() {
 }
 
 /* Signup - generate user photo using Gravatar API */
-userModel.methods.generatePhoto = function() {
+userSchema.methods.generatePhoto = function() {
     var md5 = crypto.createHash('md5').update(this.email).digest('hex');
     return 'https://gravatar.com/avatar/' + md5 + '?s=150&d=wavatar';
 };
