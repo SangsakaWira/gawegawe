@@ -57,12 +57,37 @@ const User = (() => {
         }
     }
 
+    const userEdit = async (req, res) => {
+        if (!req.body) res.status(500).send('Missing request body')
+
+        // Edit user login credentials
+        if (req.body.email) req.user.email = req.body.email;
+        if (req.body.password) req.user.password = req.body.password;
+        
+        // Edit user account information
+        if (req.body.generate_new_photo) req.user.photo = req.user.generatePhoto();
+        if (req.body.first_name) req.user.first_name = req.body.first_name;
+        if (req.body.last_name) req.user.last_name = req.body.last_name;
+        if (req.body.address_line_1) req.user.address_line1 = req.body.address_line_1;
+        if (req.body.address_line_2) req.user.address_line2 = req.body.address_line_2;
+        if (req.body.country_code) req.user.country_code = req.body.country_code;
+        if (req.body.postal_code) req.user.postal_code = req.body.postal_code;
+        if (req.body.phone) req.user.phone = req.body.phone;
+        
+        req.user.save(function(error) {
+            if (err) return res.status(500).send(error);
+
+            res.status(201).send(user)
+        });
+    }
+
     return {
         register,
         login,
         getUser,
         logout,
-        logoutAll
+        logoutAll,
+        userEdit
     }
 })()
 

@@ -1,16 +1,26 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
+var crypto = require('crypto');
 const jwt = require('jsonwebtoken')
 
 const userSchema = mongoose.Schema({
-    name: {
+    first_name: {
         type: String,
         required: true,
         trim: true,
         validate: value => {
             if (validator.isEmpty(value)) throw new Error({error: 'name is empty'})
         }
+    },
+    last_name: {
+        type: String,
+        required: false,
+        trim: true,
+    },
+    photo: {
+        type: String,
+        default: 'https://via.placeholder.com/150x150'
     },
     email: {
         type: String,
@@ -39,7 +49,12 @@ const userSchema = mongoose.Schema({
                 if (validator.isEmpty(value)) throw new Error({error: 'token is empty'})
             }
         }
-    }]
+    }],
+    address_line_1: { type: String },
+    address_line_2: { type: String },
+    country_code: { type: String },
+    postal_code: { type: String },
+    phone: { type: String },
 })
 
 userSchema.pre('save', async function (next) {
@@ -59,6 +74,12 @@ userSchema.methods.generateAuthToken = async function() {
     await user.save()
     return token
 }
+
+/* Signup - generate user photo using Gravatar API */
+userModel.methods.generatePhoto = function() {
+    var md5 = crypto.createHash('md5').update(this.email).digest('hex');
+    return 'https://gravatar.com/avatar/' + md5 + '?s=150&d=wavatar';
+};
 
 userSchema.statics.findByCredentials = async (email, password) => {
     // Search for a user by email and password.
